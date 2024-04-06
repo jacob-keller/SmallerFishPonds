@@ -38,7 +38,8 @@ namespace SmallerFishPondsSpace
             configMenu.Register(
                 mod: this.ModManifest,
                 reset: () => this.Config = new ModConfig(),
-                save: () => this.Helper.WriteConfig(this.Config)
+                save: () => this.Helper.WriteConfig(this.Config),
+                titleScreenOnly: true
             );
 
             // add boolean options
