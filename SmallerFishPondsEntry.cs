@@ -74,6 +74,7 @@ namespace SmallerFishPondsSpace
                 toPond.fishType.Value = fromPond.fishType.Value;
                 toPond.lastUnlockedPopulationGate.Value = fromPond.lastUnlockedPopulationGate.Value;
                 toPond.hasCompletedRequest.Value = fromPond.hasCompletedRequest.Value;
+                toPond.goldenAnimalCracker.Value = fromPond.goldenAnimalCracker.Value;
                 toPond.sign.Value = fromPond.sign.Value;
                 toPond.overrideWaterColor.Value = fromPond.overrideWaterColor.Value;
                 toPond.output.Value = fromPond.output.Value;
