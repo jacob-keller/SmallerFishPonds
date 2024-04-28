@@ -324,10 +324,20 @@ namespace SmallerFishPondsSpace
                 drawn_position.Y += y_offset2 - 32f;
                 b.Draw(Game1.mouseCursors, Game1.GlobalToLocal(Game1.viewport, drawn_position), new Rectangle(403, 496, 5, 14), Color.White * 0.75f, 0f, new Vector2(2f, 14f), 4f, SpriteEffects.None, bubble_layer_depth2);
             }
+
+            if (goldenAnimalCracker.Value)
+            {
+                b.Draw(texture.Value, Game1.GlobalToLocal(Game1.viewport, new Vector2(tileX.Value * 64, tileY.Value * 64) + new Vector2(124f, 128f) * 4f), new Rectangle(130, 96, 17, 16), color * alpha, 0f, Vector2.Zero, 4f, SpriteEffects.None, (((float)tileY.Value + 0.5f) * 64f + 2f) / 10000f);
+            }
+
             if (output.Value != null)
             {
                 //full bucket and output bubble
                 b.Draw(texture.Value, Game1.GlobalToLocal(Game1.viewport, new Vector2(tileX.Value * 64, tileY.Value * 64) + new Vector2(124f, 128f)), new Rectangle(0, 96, 17, 16), color * alpha, 0f, Vector2.Zero, 4f, SpriteEffects.None, (((float)tileY.Value + 0.5f) * 64f + 1f) / 10000f);
+                if (goldenAnimalCracker.Value)
+                {
+                    b.Draw(texture.Value, Game1.GlobalToLocal(Game1.viewport, new Vector2(tileX.Value * 64, tileY.Value * 64) + new Vector2(124f, 128f) * 4f), new Rectangle(145, 96, 17, 16), color * alpha, 0f, Vector2.Zero, 4f, SpriteEffects.None, (((float)tileY.Value + 0.5f) * 64f + 3f) / 10000f);
+                }
                 Vector2 value = GetItemBucketTile() * 64f;
                 float y_offset = 4f * (float)Math.Round(Math.Sin(Game1.currentGameTime.TotalGameTime.TotalMilliseconds / 250.0), 2);
                 Vector2 bubble_draw_position = value + new Vector2(0.15f, -1.4f) * 64f + new Vector2(0f, y_offset);
