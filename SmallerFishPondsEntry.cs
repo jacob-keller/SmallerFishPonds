@@ -60,8 +60,8 @@ namespace SmallerFishPondsSpace
                 mod: this.ModManifest,
                 name: () => this.Helper.Translation.Get("GMCM_Option_InstantConstruction_Name"),
                 tooltip: () => this.Helper.Translation.Get("GMCM_Option_InstantConstruction_Description"),
-                getValue: () => this.Config.ModEnabled,
-                setValue: value => this.Config.ModEnabled = value
+                getValue: () => this.Config.InstantConstruction,
+                setValue: value => this.Config.InstantConstruction = value
             );
         }
 
