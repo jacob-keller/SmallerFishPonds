@@ -292,8 +292,9 @@ namespace SmallerFishPondsSpace
                     drawOffset = drawOffset * 0.6f + new Vector2(-28f, -28f);
                     b.Draw(Game1.shadowTexture, Game1.GlobalToLocal(Game1.viewport, new Vector2(tileX.Value * 64 + 64 + (int)(7 * coralResize), tileY.Value * 64 + 64 + (int)(32 * coralResize)) + drawOffset), Game1.shadowTexture.Bounds, color * alpha, 0f, Vector2.Zero, 3f * coralResize, SpriteEffects.None, (((float)tileY.Value + 0.5f) * 64f - 2f) / 10000f - 1.1E-05f);
                     ParsedItemData fishDataOrErrorItem = ItemRegistry.GetDataOrErrorItem("(O)" + fishType.Value);
+                    Texture2D texture2D2 = fishDataOrErrorItem.GetTexture();
                     Rectangle fishSourceRect = fishDataOrErrorItem.GetSourceRect();
-                    b.Draw(Game1.objectSpriteSheet, Game1.GlobalToLocal(Game1.viewport, new Vector2(tileX.Value * 64 + 64, tileY.Value * 64 + 64) + drawOffset), fishSourceRect, color * alpha * 0.75f, 0f, Vector2.Zero, 3f * coralResize, (drawI % 3 == 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None, (((float)tileY.Value + 0.5f) * 64f - 2f) / 10000f - 1E-05f);
+                    b.Draw(texture2D2, Game1.GlobalToLocal(Game1.viewport, new Vector2(tileX.Value * 64 + 64, tileY.Value * 64 + 64) + drawOffset), fishSourceRect, color * alpha * 0.75f, 0f, Vector2.Zero, 3f * coralResize, (drawI % 3 == 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None, (((float)tileY.Value + 0.5f) * 64f - 2f) / 10000f - 1E-05f);
                 }
             }
             else
