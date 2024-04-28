@@ -240,13 +240,17 @@ namespace SmallerFishPondsSpace
                 if (fishType.Value != null)
                 {
                     //fish sprites
-                    ParsedItemData fishDataOrErrorItem = ItemRegistry.GetDataOrErrorItem("(O)" + fishType.Value);
-                    Rectangle fishSourceRect = fishDataOrErrorItem.GetSourceRect();
+                    ParsedItemData data = ItemRegistry.GetData(fishType.Value);
+                    if (data != null)
+                    {
+                        Texture2D texture2D = data.GetTexture();
+                        Rectangle sourceRect = data.GetSourceRect();
 
-                    b.Draw(Game1.objectSpriteSheet, Game1.GlobalToLocal(Game1.viewport, new Vector2(tileX.Value * 64 + 8 + 8 - 4 - 20, tileY.Value * 64 + tilesHigh.Value * 64 - 128 - 8 + 4 + 16)), fishSourceRect, Color.Black * 0.4f * alpha, 0f, Vector2.Zero, 3f, SpriteEffects.None, (((float)tileY.Value + 2.5f) * 64f + 3f) / 10000f);
-                    b.Draw(Game1.objectSpriteSheet, Game1.GlobalToLocal(Game1.viewport, new Vector2(tileX.Value * 64 + 8 + 8 - 1 - 20, tileY.Value * 64 + tilesHigh.Value * 64 - 128 - 8 + 1 + 16)), fishSourceRect, color * alpha, 0f, Vector2.Zero, 3f, SpriteEffects.None, (((float)tileY.Value + 2.5f) * 64f + 4f) / 10000f);
-                    //number
-                    Utility.drawTinyDigits(currentOccupants.Value, b, Game1.GlobalToLocal(Game1.viewport, new Vector2(tileX.Value * 64 + 32 + 8 - 20 + ((currentOccupants.Value < 10) ? 8 : 0), tileY.Value * 64 + tilesHigh.Value * 64 - 96 + 16)), 3f, (((float)tileY.Value + 2.5f) * 64f + 5f) / 10000f, Color.LightYellow * alpha);
+                        b.Draw(texture2D, Game1.GlobalToLocal(Game1.viewport, new Vector2(tileX.Value * 64 + 8 + 8 - 4 - 20, tileY.Value * 64 + tilesHigh.Value * 64 - 128 - 8 + 4 + 16)), sourceRect, Color.Black * 0.4f * alpha, 0f, Vector2.Zero, 3f, SpriteEffects.None, (((float)tileY.Value + 2.5f) * 64f + 3f) / 10000f);
+                        b.Draw(texture2D, Game1.GlobalToLocal(Game1.viewport, new Vector2(tileX.Value * 64 + 8 + 8 - 1 - 20, tileY.Value * 64 + tilesHigh.Value * 64 - 128 - 8 + 1 + 16)), sourceRect, color * alpha, 0f, Vector2.Zero, 3f, SpriteEffects.None, (((float)tileY.Value + 2.5f) * 64f + 4f) / 10000f);
+                        //number
+                        Utility.drawTinyDigits(currentOccupants.Value, b, Game1.GlobalToLocal(Game1.viewport, new Vector2(tileX.Value * 64 + 32 + 8 - 20 + ((currentOccupants.Value < 10) ? 8 : 0), tileY.Value * 64 + tilesHigh.Value * 64 - 96 + 16)), 3f, (((float)tileY.Value + 2.5f) * 64f + 5f) / 10000f, Color.LightYellow * alpha);
+                    }
                 }
             }
             if (_fishObject != null && (_fishObject.QualifiedItemId == "(O)393" || _fishObject.QualifiedItemId == "(O)397"))
