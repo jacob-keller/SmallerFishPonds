@@ -229,7 +229,7 @@ namespace SmallerFishPondsSpace
             if (nettingStyle.Value < 3)
             {
                 //netting styles, disabled for now
-                //b.Draw(texture.Value, Game1.GlobalToLocal(Game1.viewport, new Vector2(tileX.Value * 64, tileY.Value * 64 + tilesHigh.Value * 64 - 128)), new Rectangle(80, (int)nettingStyle * 48, 80, 48), color.Value * alpha, 0f, new Vector2(0f, 80f), 4f, SpriteEffects.None, (((float)tileY.Value + 0.5f) * 64f + 2f) / 10000f);
+                //b.Draw(texture.Value, Game1.GlobalToLocal(Game1.viewport, new Vector2(tileX.Value * 64, tileY.Value * 64 + tilesHigh.Value * 64 - 128)), new Rectangle(80, nettingStyle.Value * 48, 80, 48), color * alpha, 0f, new Vector2(0f, 80f), 4f, SpriteEffects.None, (((float)tileY.Value + 0.5f) * 64f + 2f) / 10000f);
             }
             if (sign.Value != null)
             {
