@@ -133,12 +133,11 @@ namespace SmallerFishPondsSpace
         /// <returns></returns>
         public new bool JumpFish()
         {
-            SmallPondFishSilhouette fish_silhouette = null;
             if (_fishSilhouettes.Count == 0)
             {
                 return false;
             }
-            fish_silhouette = Game1.random.ChooseFrom(_smallPondFishSilhouettes);
+            SmallPondFishSilhouette fish_silhouette = Game1.random.ChooseFrom(_smallPondFishSilhouettes);
             _smallPondFishSilhouettes.Remove(fish_silhouette);
             _fishSilhouettes.RemoveAt(0);
             _jumpingFish.Add(new JumpingFish(this,
