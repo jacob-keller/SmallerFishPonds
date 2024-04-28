@@ -111,7 +111,8 @@ namespace SmallerFishPondsSpace
         public virtual void ReplacePondFish()
         {
             List<PondFishSilhouette> newFishSilhouettes = new List<PondFishSilhouette>();
-            newFishSilhouettes = _fishSilhouettes.ConvertAll(new Converter<PondFishSilhouette, PondFishSilhouette>(PondFishToWellFish));
+            Converter<PondFishSilhouette, PondFishSilhouette> converter = new(PondFishToWellFish);
+            newFishSilhouettes = _fishSilhouettes.ConvertAll(converter);
             _fishSilhouettes = newFishSilhouettes;
         }
 
