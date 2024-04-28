@@ -91,30 +91,28 @@ namespace SmallerFishPondsSpace
             }
         }
 
-        private void RecreateAsSmallerPond(Vector2 pondTile)
+        private void RecreateAsSmallerPond(GameLocation location, Vector2 pondTile)
         {
-            this.Monitor.Log($"Converting Pond at {pondTile} to smaller 3x3 size.", LogLevel.Trace);
-            Farm farm = Game1.getLocationFromName("Farm") as Farm;
-            Building oldBuilding = farm.getBuildingAt(pondTile);
+            this.Monitor.Log($"Converting Pond at {pondTile} in {location} to smaller 3x3 size.", LogLevel.Trace);
+            Building oldBuilding = location.getBuildingAt(pondTile);
             SmallerFishPond newPond = new(Vector2.Zero);
             ReplacePondData(oldBuilding, newPond);
-            farm.destroyStructure(oldBuilding);
-            farm.buildStructure(newPond, pondTile, Game1.player, true);
+            location.destroyStructure(oldBuilding);
+            location.buildStructure(newPond, pondTile, Game1.player, true);
             newPond.performActionOnBuildingPlacement();
             newPond.resetTexture();
         }
 
-        private void RecreateAsNormalPond(Vector2 pondTile)
+        private void RecreateAsNormalPond(GameLocation location, Vector2 pondTile)
         {
-            this.Monitor.Log($"Converting Pond at {pondTile} to normal 5x5 size.", LogLevel.Trace);
-            Farm farm = Game1.getLocationFromName("Farm") as Farm;
-            Building oldBuilding = farm.getBuildingAt(pondTile);
+            this.Monitor.Log($"Converting Pond at {pondTile} in {location} to normal 5x5 size.", LogLevel.Trace);
+            Building oldBuilding = location.getBuildingAt(pondTile);
             FishPond newPond = new(Vector2.Zero);
             ReplacePondData(oldBuilding, newPond);
             newPond.tilesWide.Value = 5;
             newPond.tilesHigh.Value = 5;
-            farm.destroyStructure(oldBuilding);
-            farm.buildStructure(newPond, pondTile, Game1.player, true);
+            location.destroyStructure(oldBuilding);
+            location.buildStructure(newPond, pondTile, Game1.player, true);
             newPond.performActionOnBuildingPlacement();
             newPond.UpdateMaximumOccupancy();
         }
@@ -156,23 +154,25 @@ namespace SmallerFishPondsSpace
 
         private void RecreateAllPonds(bool smallSize)
         {
-            List<Vector2> tilesWithPonds = new();
-            foreach (Building building in Game1.getFarm().buildings) {
-                if (building.buildingType.Value == "Fish Pond") {
-                    // Skip if we're already the right size
-                    if (smallSize && building is SmallerFishPond)
-                        continue;
-                    if (!smallSize && building is FishPond)
-                        continue;
-                    tilesWithPonds.Add(new Vector2(building.tileX.Value, building.tileY.Value));
+            foreach (GameLocation location in Game1.locations) {
+                List<Vector2> tilesWithPonds = new();
+                foreach (Building building in location.buildings) {
+                    if (building.buildingType.Value == "Fish Pond") {
+                        // Skip if we're already the right size
+                        if (smallSize && building is SmallerFishPond)
+                            continue;
+                        if (!smallSize && building is FishPond)
+                            continue;
+                        tilesWithPonds.Add(new Vector2(building.tileX.Value, building.tileY.Value));
+                    }
                 }
-            }
 
-            foreach (Vector2 tile in tilesWithPonds) {
-                if (smallSize) {
-                    RecreateAsSmallerPond(tile);
-                } else {
-                    RecreateAsNormalPond(tile);
+                foreach (Vector2 tile in tilesWithPonds) {
+                    if (smallSize) {
+                        RecreateAsSmallerPond(location, tile);
+                    } else {
+                        RecreateAsNormalPond(location, tile);
+                    }
                 }
             }
         }
