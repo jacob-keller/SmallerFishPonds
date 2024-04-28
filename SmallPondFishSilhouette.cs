@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
 using StardewValley.Buildings;
+using StardewValley.ItemTypeDefinitions;
 
 namespace SmallerFishPondsSpace
 {
@@ -66,10 +67,11 @@ namespace SmallerFishPondsSpace
             draw_position.Y += (float)Math.Sin(_age * 2f + _randomOffset) * 5f;
             draw_position.Y += (int)(_sinkAmount * 4f);
             float transparency = Utility.Lerp(0.25f, 0.15f, Utility.Clamp(_sinkAmount, 0f, 1f));
+            ParsedItemData dataOrErrorItem = ItemRegistry.GetDataOrErrorItem(_fishObject.QualifiedItemId);
             b.Draw(origin: new Vector2(8f, 8f),
-                   texture: Game1.objectSpriteSheet,
+                   texture: dataOrErrorItem.GetTexture(),
                    position: Game1.GlobalToLocal(Game1.viewport, draw_position),
-                   sourceRectangle: Game1.getSourceRectForStandardTileSheet(Game1.objectSpriteSheet, _fishObject.ParentSheetIndex, 16, 16),
+                   sourceRectangle: dataOrErrorItem.GetSourceRect(),
                    color: Color.Black * transparency,
                    rotation: angle,
                    scale: 4f * draw_scale,
