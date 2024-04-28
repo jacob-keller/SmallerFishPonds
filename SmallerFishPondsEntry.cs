@@ -155,8 +155,7 @@ namespace SmallerFishPondsSpace
             if (!Context.IsWorldReady)
                 return;
 
-            //on menu exit, scan for any new fish ponds and convert them to SmallerFishPond class
-            if (e.OldMenu is CarpenterMenu)
+            if (this.Config.ModEnabled && e.OldMenu is CarpenterMenu)
             {
                 List<Vector2> tilesWithPonds = new();
                 foreach (Building building in Game1.getFarm().buildings)
@@ -166,14 +165,7 @@ namespace SmallerFishPondsSpace
                         tilesWithPonds.Add(new Vector2(building.tileX.Value, building.tileY.Value));
                     }
                 }
-                if (this.Config.ModEnabled)
-                {
-                    tilesWithPonds.ForEach(RecreateAsSmallerPond);
-                }
-                else
-                {
-                    tilesWithPonds.ForEach(RecreateAsNormalPond);
-                }
+                tilesWithPonds.ForEach(RecreateAsSmallerPond);
             }
         }
 
