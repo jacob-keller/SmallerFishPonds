@@ -248,7 +248,7 @@ namespace SmallerFishPondsSpace
                     Utility.drawTinyDigits(currentOccupants.Value, b, Game1.GlobalToLocal(Game1.viewport, new Vector2(tileX.Value * 64 + 32 + 8 - 20 + ((currentOccupants.Value < 10) ? 8 : 0), tileY.Value * 64 + tilesHigh.Value * 64 - 96 + 16)), 3f, (((float)tileY.Value + 2.5f) * 64f + 5f) / 10000f, Color.LightYellow * alpha);
                 }
             }
-            if (_fishObject != null && (_fishObject.ParentSheetIndex == 393 || _fishObject.ParentSheetIndex == 397))
+            if (_fishObject != null && (_fishObject.QualifiedItemId == "(O)393" || _fishObject.QualifiedItemId == "(O)397"))
             {
                 //resize and redistribute the coral, sea urchins
                 for (int k = 0; k < currentOccupants.Value; k++)
