@@ -16,13 +16,15 @@ namespace SmallerFishPondsSpace
     public class SmallerFishPondsEntry : Mod
     {
         private ModConfig Config;
+
         public override void Entry(IModHelper helper)
         {
             this.Config = this.Helper.ReadConfig<ModConfig>();
 
             helper.Events.GameLoop.GameLaunched += this.OnGameLaunched;
             helper.Events.Content.AssetRequested += this.OnAssetRequested;
-            helper.Events.Display.MenuChanged += this.OnMenuChanged;
+            helper.Events.World.BuildingListChanged += this.OnBuildingListChanged;
+            helper.Events.World.LocationListChanged += this.OnLocationListChanged;
             helper.Events.GameLoop.DayStarted += this.OnDayStarted;
             helper.Events.GameLoop.Saving += this.OnSaving;
         }
@@ -152,39 +154,51 @@ namespace SmallerFishPondsSpace
             }
         }
 
-        private void RecreateAllPonds(bool smallSize)
+        private void RecreatePondsAt(GameLocation location, IEnumerable<Building> buildings, bool smallSize)
         {
-            foreach (GameLocation location in Game1.locations) {
-                List<Vector2> tilesWithPonds = new();
-                foreach (Building building in location.buildings) {
-                    if (building.buildingType.Value == "Fish Pond") {
-                        // Skip if we're already the right size
-                        if (smallSize && building is SmallerFishPond)
-                            continue;
-                        if (!smallSize && building is FishPond)
-                            continue;
-                        tilesWithPonds.Add(new Vector2(building.tileX.Value, building.tileY.Value));
-                    }
+            List<Vector2> tilesWithPonds = new();
+            foreach (Building building in buildings) {
+                if (building.buildingType.Value == "Fish Pond") {
+                    // Skip if we're already the right size
+                    if (smallSize && building is SmallerFishPond)
+                        continue;
+                    if (!smallSize && building is FishPond)
+                        continue;
+                    tilesWithPonds.Add(new Vector2(building.tileX.Value, building.tileY.Value));
                 }
+            }
 
-                foreach (Vector2 tile in tilesWithPonds) {
-                    if (smallSize) {
-                        RecreateAsSmallerPond(location, tile);
-                    } else {
-                        RecreateAsNormalPond(location, tile);
-                    }
+            foreach (Vector2 tile in tilesWithPonds) {
+                if (smallSize) {
+                    RecreateAsSmallerPond(location, tile);
+                } else {
+                    RecreateAsNormalPond(location, tile);
                 }
             }
         }
 
-        private void OnMenuChanged(object sender, MenuChangedEventArgs e)
+        private void RecreateAllPonds(bool smallSize)
         {
-            if (!Context.IsWorldReady)
+            foreach (GameLocation location in Game1.locations) {
+                RecreatePondsAt(location, location.buildings, smallSize);
+            }
+        }
+
+        private void OnBuildingListChanged(object sender, BuildingListChangedEventArgs e)
+        {
+            if (!this.Config.ModEnabled)
                 return;
 
-            //on menu exit, convert everything so new fish ponds work correctly
-            if (this.Config.ModEnabled && e.OldMenu is CarpenterMenu) {
-                RecreateAllPonds(smallSize: true);
+            RecreatePondsAt(e.Location, e.Added, smallSize: true);
+        }
+
+        private void OnLocationListChanged(object sender, LocationListChangedEventArgs e)
+        {
+            if (!this.Config.ModEnabled)
+                return;
+
+            foreach (GameLocation location in e.Added) {
+                RecreatePondsAt(location, location.buildings, smallSize: true);
             }
         }
 
