@@ -27,6 +27,11 @@ namespace SmallerFishPondsSpace
             helper.Events.GameLoop.Saving += this.OnSaving;
         }
 
+        private void SaveConfig()
+        {
+            this.Helper.WriteConfig(this.Config);
+            RecreateAllPonds(smallSize: this.Config.ModEnabled);
+        }
         private void OnGameLaunched(object sender, GameLaunchedEventArgs e)
         {
             // get Generic Mod Config Menu's API (if it's installed)
@@ -38,8 +43,7 @@ namespace SmallerFishPondsSpace
             configMenu.Register(
                 mod: this.ModManifest,
                 reset: () => this.Config = new ModConfig(),
-                save: () => this.Helper.WriteConfig(this.Config),
-                titleScreenOnly: true
+                save: SaveConfig
             );
 
             // add boolean options
