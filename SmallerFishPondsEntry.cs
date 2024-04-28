@@ -150,58 +150,54 @@ namespace SmallerFishPondsSpace
             }
         }
 
+        private void RecreateAllPonds(bool smallSize)
+        {
+            List<Vector2> tilesWithPonds = new();
+            foreach (Building building in Game1.getFarm().buildings) {
+                if (building.buildingType.Value == "Fish Pond") {
+                    // Skip if we're already the right size
+                    if (smallSize && building is SmallerFishPond)
+                        continue;
+                    if (!smallSize && building is FishPond)
+                        continue;
+                    tilesWithPonds.Add(new Vector2(building.tileX.Value, building.tileY.Value));
+                }
+            }
+
+            foreach (Vector2 tile in tilesWithPonds) {
+                if (smallSize) {
+                    RecreateAsSmallerPond(tile);
+                } else {
+                    RecreateAsNormalPond(tile);
+                }
+            }
+        }
+
         private void OnMenuChanged(object sender, MenuChangedEventArgs e)
         {
             if (!Context.IsWorldReady)
                 return;
 
-            if (this.Config.ModEnabled && e.OldMenu is CarpenterMenu)
-            {
-                List<Vector2> tilesWithPonds = new();
-                foreach (Building building in Game1.getFarm().buildings)
-                {
-                    if (building.buildingType.Value == "Fish Pond" && building is not SmallerFishPond)
-                    {
-                        tilesWithPonds.Add(new Vector2(building.tileX.Value, building.tileY.Value));
-                    }
-                }
-                tilesWithPonds.ForEach(RecreateAsSmallerPond);
+            //on menu exit, convert everything so new fish ponds work correctly
+            if (this.Config.ModEnabled && e.OldMenu is CarpenterMenu) {
+                RecreateAllPonds(smallSize: true);
             }
         }
 
         private void OnDayStarted(object sender, DayStartedEventArgs e)
         {
             // Only convert to smaller size if the mod is enabled
-            if (this.Config.ModEnabled && Context.IsMainPlayer)
-            {
-                List<Vector2> tilesWithPonds = new();
-                foreach (Building building in Game1.getFarm().buildings)
-                {
-                    if (building.buildingType.Value == "Fish Pond" && building is not SmallerFishPond)
-                    {
-                        tilesWithPonds.Add(new Vector2(building.tileX.Value, building.tileY.Value));
-                    }
-                }
-                tilesWithPonds.ForEach(RecreateAsSmallerPond);
+            if (this.Config.ModEnabled && Context.IsMainPlayer) {
+                RecreateAllPonds(smallSize: true);
             }
         }
 
         private void OnSaving(object sender, SavingEventArgs e)
         {
             // Always convert back to normal size when saving even if we're disabled
-            if (Context.IsMainPlayer)
-            {
-                List<Vector2> tilesWithPonds = new();
-                foreach (Building building in Game1.getFarm().buildings)
-                {
-                    if (building.buildingType.Value == "Fish Pond" && building is SmallerFishPond)
-                    {
-                        tilesWithPonds.Add(new Vector2(building.tileX.Value, building.tileY.Value));
-                    }
-                }
-                tilesWithPonds.ForEach(RecreateAsNormalPond);
+            if (Context.IsMainPlayer) {
+                RecreateAllPonds(smallSize: false);
             }
         }
-
     }
 }
