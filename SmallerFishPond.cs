@@ -345,10 +345,13 @@ namespace SmallerFishPondsSpace
                 float bubble_layer_depth = (value.Y + 64f) / 10000f + 1E-06f;
                 float item_layer_depth = (value.Y + 64f) / 10000f + 1E-05f;
                 b.Draw(Game1.mouseCursors, Game1.GlobalToLocal(Game1.viewport, bubble_draw_position), new Rectangle(141, 465, 20, 24), Color.White * 0.75f, 0f, Vector2.Zero, 4f, SpriteEffects.None, bubble_layer_depth);
-                b.Draw(Game1.objectSpriteSheet, Game1.GlobalToLocal(Game1.viewport, bubble_draw_position + item_relative_to_bubble), Game1.getSourceRectForStandardTileSheet(Game1.objectSpriteSheet, output.Value.ParentSheetIndex, 16, 16), Color.White * 0.75f, 0f, new Vector2(8f, 8f), 4f, SpriteEffects.None, item_layer_depth);
+                ParsedItemData dataOrErrorItem3 = ItemRegistry.GetDataOrErrorItem(output.Value.QualifiedItemId);
+                Texture2D texture2D3 = dataOrErrorItem3.GetTexture();
+                b.Draw(texture2D3, Game1.GlobalToLocal(Game1.viewport, bubble_draw_position + item_relative_to_bubble), dataOrErrorItem3.GetSourceRect(), Color.White * 0.75f, 0f, new Vector2(8f, 8f), 4f, SpriteEffects.None, item_layer_depth);
                 if (output.Value is ColoredObject)
                 {
-                    b.Draw(Game1.objectSpriteSheet, Game1.GlobalToLocal(Game1.viewport, bubble_draw_position + item_relative_to_bubble), Game1.getSourceRectForStandardTileSheet(Game1.objectSpriteSheet, output.Value.ParentSheetIndex + 1, 16, 16), (output.Value as ColoredObject).color.Value * 0.75f, 0f, new Vector2(8f, 8f), 4f, SpriteEffects.None, item_layer_depth + 1E-05f);
+                    Rectangle sourceRect3 = ItemRegistry.GetDataOrErrorItem(output.Value.QualifiedItemId).GetSourceRect(1);
+                    b.Draw(texture2D3, Game1.GlobalToLocal(Game1.viewport, bubble_draw_position + item_relative_to_bubble), sourceRect3, (output.Value as ColoredObject).color.Value * 0.75f, 0f, new Vector2(8f, 8f), 4f, SpriteEffects.None, item_layer_depth + 1E-05f);
                 }
             }
         }
