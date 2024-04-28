@@ -63,6 +63,14 @@ namespace SmallerFishPondsSpace
                 getValue: () => this.Config.InstantConstruction,
                 setValue: value => this.Config.InstantConstruction = value
             );
+
+            configMenu.AddBoolOption(
+                mod: this.ModManifest,
+                name: () => this.Helper.Translation.Get("GMCM_Option_KeepSmallerSizeOnSave_Name"),
+                tooltip: () => this.Helper.Translation.Get("GMCM_Option_KeepSmallerSizeOnSave_Description"),
+                getValue: () => this.Config.KeepSmallSizeOnSave,
+                setValue: value => this.Config.KeepSmallSizeOnSave = value
+            );
         }
 
         private void ReplacePondData(Building fromBuilding, FishPond toPond)
@@ -99,6 +107,8 @@ namespace SmallerFishPondsSpace
             Building oldBuilding = location.getBuildingAt(pondTile);
             SmallerFishPond newPond = new(Vector2.Zero);
             ReplacePondData(oldBuilding, newPond);
+            newPond.tilesWide.Value = 3;
+            newPond.tilesHigh.Value = 3;
             location.destroyStructure(oldBuilding);
             location.buildStructure(newPond, pondTile, Game1.player, true);
             newPond.performActionOnBuildingPlacement();
@@ -111,8 +121,13 @@ namespace SmallerFishPondsSpace
             Building oldBuilding = location.getBuildingAt(pondTile);
             FishPond newPond = new(Vector2.Zero);
             ReplacePondData(oldBuilding, newPond);
-            newPond.tilesWide.Value = 5;
-            newPond.tilesHigh.Value = 5;
+            if (this.Config.KeepSmallSizeOnSave) {
+                newPond.tilesWide.Value = 3;
+                newPond.tilesHigh.Value = 3;
+            } else {
+                newPond.tilesWide.Value = 5;
+                newPond.tilesHigh.Value = 5;
+            }
             location.destroyStructure(oldBuilding);
             location.buildStructure(newPond, pondTile, Game1.player, true);
             newPond.performActionOnBuildingPlacement();

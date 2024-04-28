@@ -7,5 +7,6 @@ namespace SmallerFishPondsSpace
     {
         public bool ModEnabled { get; set; } = true;
         public bool InstantConstruction { get; set; } = false;
+        public bool KeepSmallSizeOnSave { get; set; } = true;
     }
 }
