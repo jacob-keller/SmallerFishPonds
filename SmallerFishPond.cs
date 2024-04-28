@@ -236,7 +236,7 @@ namespace SmallerFishPondsSpace
                 //sign sprite
                 //layers moved up to cover grass n' trees n' stuff
                 ParsedItemData dataOrErrorItem = ItemRegistry.GetDataOrErrorItem(sign.Value.QualifiedItemId);
-                b.Draw(dataOrErrorItem.GetTexture(), Game1.GlobalToLocal(Game1.viewport, new Vector2(tileX.Value * 64 + 8 - 20, tileY.Value * 64 + tilesHigh.Value * 64 - 128 - 32 + 16)), Game1.getSourceRectForStandardTileSheet(Game1.bigCraftableSpriteSheet, sign.Value.ParentSheetIndex, 16, 32), color * alpha, 0f, Vector2.Zero, 4f, SpriteEffects.None, (((float)tileY.Value + 2.5f) * 64f + 2f) / 10000f); // previous tileY offset was 0.5f
+                b.Draw(dataOrErrorItem.GetTexture(), Game1.GlobalToLocal(Game1.viewport, new Vector2(tileX.Value * 64 + 8 - 20, tileY.Value * 64 + tilesHigh.Value * 64 - 128 - 32 + 16)), dataOrErrorItem.GetSourceRect(), color * alpha, 0f, Vector2.Zero, 4f, SpriteEffects.None, (((float)tileY.Value + 2.5f) * 64f + 2f) / 10000f); // previous tileY offset was 0.5f
                 if (fishType.Value != null)
                 {
                     //fish sprites
