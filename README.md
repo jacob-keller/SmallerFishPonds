@@ -1,4 +1,4 @@
-# The Return of Smaller Fish Ponds - 1.0.0
+# The Return of Smaller Fish Ponds - 2.0.0
 
 This is an update/re-write of the functionality from Smaller Fish Ponds
 originally created by Peasly Wellbott. This implementation borrows somewhat
@@ -30,17 +30,24 @@ Primarily, this mod does not allow having both normal and small sized ponds
 at the same time. All ponds are automatically converted to the small size on
 creation and at the start of the day.
 
-Additionally, ponds are restored to their 5x5 size on saving. If you disable
-this mod, all the ponds should revert to normal. The only damage to your
-save file should be the need to have Robin move buildings due to their size
-change.
+On save, the ponds are restored to standard fish ponds. By default, the size
+is kept at 3x3 to avoid any issues with crops or other structures nearby the
+pond. However, this results in graphical glitches if the save is loaded
+without this mod.
+
+You can disable this behavior to revert the ponds to 5x5 size on save by
+disabling the "Keep smaller size on save". This is only recommended to do if
+you're about to remove the mod.
 
 ## Known Issues
 
 * The Fish Pond background is white in the construction menu and during the
   animation for building.
 
-* Changing Instant Construction configuration requires a restart.
+* The mod (by default) will save fish ponds using a smaller 3x3 size in the
+  save file. This may create graphical issues if you load the save without
+  the mod enabled. To avoid this, disable the "Keep smaller size on save"
+  option and save the game before removing this mod.
 
 ## Credits
 
